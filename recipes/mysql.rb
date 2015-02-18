@@ -17,14 +17,11 @@
 # limitations under the License.
 #
 
-if %w(localhost 127.0.0.1).include? node[:redmine][:db][:hostname]
-  include_recipe 'mysql::server'
-end
-
-include_recipe 'mysql::client'
-
 if [true, 'true'].include? node[:redmine][:create_db]
-  include_recipe 'database::mysql'
+
+  mysql2_chef_gem 'default' do
+    action :install
+  end
 
   connection_info = {
     host:     node[:redmine][:db][:hostname],
